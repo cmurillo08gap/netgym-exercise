@@ -24,6 +24,9 @@ export default function PlayerRow({ player, onClick, isSelected }) {
       <td className="px-4 py-3 text-right font-semibold text-green-600">{player.home_run?.toLocaleString()}</td>
       <td className="px-4 py-3 text-right">{player.run_batted_in?.toLocaleString()}</td>
       <td className="px-4 py-3 text-right">{player.strikeouts?.toLocaleString()}</td>
+      <td className="px-4 py-3 text-right">{player.a_walk?.toLocaleString()}</td>
+      <td className="px-4 py-3 text-right text-purple-600">{player.stolen_base?.toLocaleString()}</td>
+      <td className="px-4 py-3 text-right font-semibold">{player.avg ? Number(player.avg).toFixed(3) : '-'}</td>
     </tr>
   );
 }

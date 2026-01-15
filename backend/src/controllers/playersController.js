@@ -4,15 +4,19 @@ const { generatePlayerDescription } = require('../services/githubModelsService')
 // GET /api/players - Get all players with optional sorting
 const getAllPlayers = async (req, res) => {
   try {
-    const { sortBy = 'hits' } = req.query; // Default sort by hits
+    const { sortBy = 'hits', sortDir = 'desc' } = req.query;
     
     // Validate sortBy parameter
-    const validSortFields = ['hits', 'home_run'];
+    const validSortFields = ['player_name', 'hits', 'home_run'];
     const sortField = validSortFields.includes(sortBy) ? sortBy : 'hits';
+    
+    // Validate sortDir parameter
+    const validSortDirs = ['asc', 'desc'];
+    const sortDirection = validSortDirs.includes(sortDir) ? sortDir : 'desc';
     
     const players = await db('players')
       .select('*')
-      .orderBy(sortField, 'desc');
+      .orderBy(sortField, sortDirection);
     
     res.json(players);
   } catch (error) {

@@ -15,6 +15,7 @@ export default function SidePanel({ playerId, onClose, onSave }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [editValues, setEditValues] = useState({});
+  const [aboutExpanded, setAboutExpanded] = useState(false);
 
   // Fetch player details when playerId changes
   useEffect(() => {
@@ -100,16 +101,28 @@ export default function SidePanel({ playerId, onClose, onSave }) {
             </div>
           ) : (
             <>
-              {/* Player Description */}
+              {/* Player Description - Collapsible */}
               <div className="mb-6">
                 <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2">
                   About
                 </h3>
-                <p className="text-gray-700 leading-relaxed">
-                  {player?.description || (
-                    <span className="text-gray-400 italic">Generating description...</span>
-                  )}
-                </p>
+                {player?.description ? (
+                  <div>
+                    <p className={`text-gray-700 leading-relaxed ${!aboutExpanded ? 'line-clamp-3' : ''}`}>
+                      {player.description}
+                    </p>
+                    {player.description.length > 150 && (
+                      <button
+                        onClick={() => setAboutExpanded(!aboutExpanded)}
+                        className="mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium"
+                      >
+                        {aboutExpanded ? 'Show less' : 'Read more'}
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-gray-400 italic">Generating description...</p>
+                )}
               </div>
 
               {/* Player Position & Basic Info */}

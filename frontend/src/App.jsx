@@ -7,7 +7,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { fetchPlayers } from './services/api';
-import SortControls from './components/SortControls';
 import PlayerList from './components/PlayerList';
 import SidePanel from './components/SidePanel';
 
@@ -16,28 +15,36 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sortBy, setSortBy] = useState('hits');
+  const [sortDir, setSortDir] = useState('desc');
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 
-  // Fetch players when sortBy changes
+  // Fetch players when sort changes
   const loadPlayers = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchPlayers(sortBy);
+      const data = await fetchPlayers(sortBy, sortDir);
       setPlayers(data);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, [sortBy]);
+  }, [sortBy, sortDir]);
 
   useEffect(() => {
     loadPlayers();
   }, [loadPlayers]);
 
-  const handleSortChange = (newSortBy) => {
-    setSortBy(newSortBy);
+  const handleSortChange = (field) => {
+    if (sortBy === field) {
+      // Toggle direction if same field
+      setSortDir(sortDir === 'desc' ? 'asc' : 'desc');
+    } else {
+      // New field, default to desc (except for name which defaults to asc)
+      setSortBy(field);
+      setSortDir(field === 'player_name' ? 'asc' : 'desc');
+    }
   };
 
   const handlePlayerClick = (playerId) => {
@@ -57,7 +64,7 @@ function App() {
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="px-4 sm:px-6 lg:px-8 py-4">
           <h1 className="text-2xl font-bold text-gray-900">
             ⚾ Baseball Players
           </h1>
@@ -65,10 +72,7 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Sort Controls */}
-        <SortControls sortBy={sortBy} onSortChange={handleSortChange} />
-
+      <main className="px-4 sm:px-6 lg:px-8 py-6">
         {/* Player List */}
         <PlayerList
           players={players}
@@ -76,6 +80,9 @@ function App() {
           error={error}
           selectedPlayerId={selectedPlayerId}
           onPlayerClick={handlePlayerClick}
+          sortBy={sortBy}
+          sortDir={sortDir}
+          onSortChange={handleSortChange}
         />
       </main>
 

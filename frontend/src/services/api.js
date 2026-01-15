@@ -8,11 +8,12 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 /**
  * Fetch all players with optional sorting
- * @param {string} sortBy - Field to sort by ('hits' or 'home_run')
+ * @param {string} sortBy - Field to sort by ('player_name', 'hits', or 'home_run')
+ * @param {string} sortDir - Sort direction ('asc' or 'desc')
  * @returns {Promise<Array>} Array of player objects
  */
-export async function fetchPlayers(sortBy = 'hits') {
-  const response = await fetch(`${API_BASE_URL}/api/players?sortBy=${sortBy}`);
+export async function fetchPlayers(sortBy = 'hits', sortDir = 'desc') {
+  const response = await fetch(`${API_BASE_URL}/api/players?sortBy=${sortBy}&sortDir=${sortDir}`);
   
   if (!response.ok) {
     throw new Error('Failed to fetch players');
