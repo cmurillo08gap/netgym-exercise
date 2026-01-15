@@ -46,7 +46,7 @@
 - [x] Create `/backend/seeds` directory
 
 ### Database Migrations & Seeders
-- [ ] Write migration: create `players` table with columns:
+- [x] Write migration: create `players` table with columns:
   - `id` (primary key, auto-increment)
   - `Player name` (VARCHAR)
   - `position` (VARCHAR)
@@ -61,7 +61,7 @@
   - `a walk` (INTEGER)
   - `Strikeouts` (INTEGER)
   - `stolen base` (INTEGER)
-  - `Caught stealing` (VARCHAR or INTEGER, handle NULL)
+  - `Caught stealing` (INTEGER, handle NULL for "--" values)
   - `AVG` (DECIMAL)
   - `On-base Percentage` (DECIMAL)
   - `Slugging Percentage` (DECIMAL)
@@ -69,58 +69,57 @@
   - `description` (TEXT, nullable, initially NULL)
   - `created_at` (TIMESTAMP, default NOW())
   - `updated_at` (TIMESTAMP, default NOW())
-- [ ] Run migration: `npx knex migrate:latest`
-- [ ] Write seeder: load all data from `/data/baseball_data.json`
-- [ ] Run seeder: `npx knex seed:run`
-- [ ] Verify data loaded correctly in Postgres
+- [x] Run migration: `npx knex migrate:latest`
+- [x] Write seeder: load all data from `/data/baseball_data.json`
+- [x] Run seeder: `npx knex seed:run`
+- [x] Verify data loaded correctly in Postgres
 
 ---
 
 ## Phase 3: Backend API Implementation
 
 ### Project Structure
-- [ ] Create `/backend/src` directory
-- [ ] Create `/backend/src/app.js` (Express app setup)
-- [ ] Create `/backend/src/server.js` (server entry point)
-- [ ] Create `/backend/src/db.js` (Knex database connection)
-- [ ] Create `/backend/src/routes` directory
-- [ ] Create `/backend/src/routes/players.js` (routes file)
-- [ ] Create `/backend/src/controllers` directory
-- [ ] Create `/backend/src/controllers/playersController.js` (business logic)
+- [x] Create `/backend/src` directory
+- [x] Create `/backend/src/app.js` (Express app setup)
+- [x] Create `/backend/src/server.js` (server entry point)
+- [x] Create `/backend/src/db.js` (Knex database connection)
+- [x] Create `/backend/src/routes` directory
+- [x] Create `/backend/src/routes/players.js` (routes file)
+- [x] Create `/backend/src/controllers` directory
+- [x] Create `/backend/src/controllers/playersController.js` (business logic)
 
 ### API Endpoints
-- [ ] Implement `GET /api/players` endpoint
+- [x] Implement `GET /api/players` endpoint
   - Support `?sortBy=hits` query parameter (default)
-  - Support `?sortBy=homerun` query parameter
+  - Support `?sortBy=home_run` query parameter
   - Return players sorted descending by selected field
   - Test with curl/Postman
-- [ ] Implement `GET /api/players/:id` endpoint
+- [x] Implement `GET /api/players/:id` endpoint
   - Return single player with all fields including description
   - Return 404 if player not found
   - Test with curl/Postman
-- [ ] Implement `PUT /api/players/:id` endpoint
+- [x] Implement `PUT /api/players/:id` endpoint
   - Accept JSON body with 8 editable fields:
-    - `Games`
-    - `At-bat`
-    - `Runs`
-    - `Hits`
-    - `Double (2B)`
-    - `home run`
-    - `run batted in`
-    - `Strikeouts`
+    - `games`
+    - `at_bat`
+    - `runs`
+    - `hits`
+    - `double_2b`
+    - `home_run`
+    - `run_batted_in`
+    - `strikeouts`
   - Validate all values are non-negative integers
   - Update database
   - Return updated player
   - Return 400 if validation fails
   - Test with curl/Postman
-- [ ] Set up Express middleware:
+- [x] Set up Express middleware:
   - `cors` for cross-origin requests
   - `body-parser` for JSON
   - Error handling middleware
-- [ ] Add `package.json` scripts:
-  - `npm run dev` - start server with nodemon
-  - `npm run start` - start server production
-- [ ] Test all endpoints locally
+- [x] Add `package.json` scripts:
+  - `npm run start` - start server
+- [x] Test all endpoints locally
 
 ---
 

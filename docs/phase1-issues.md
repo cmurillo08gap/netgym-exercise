@@ -1,13 +1,11 @@
-# Phase 1: Project Initialization - Issues & Resolutions
+# Phase 1 Issues & Resolutions
 
-## Date: January 15, 2026
+This document tracks issues encountered during Phase 1 (Project Initialization) and their resolutions.
 
----
+## Issue 1: Node.js Version Incompatibility
 
-## Issues Encountered
-
-### 1. Node.js Version Incompatibility ⚠️
-**Issue:** Node.js v20.16.0 was installed, but Vite v7.3.1 requires Node.js v20.19+ or v22.12+
+**Problem:**
+Node.js v20.16.0 was installed, but Vite v7.3.1 requires Node.js v20.19+ or v22.12+
 
 **Error Message:**
 ```
@@ -15,18 +13,21 @@ You are using Node.js 20.16.0. Vite requires Node.js version 20.19+ or 22.12+.
 Please upgrade your Node.js version.
 ```
 
-**Resolution:**
+**Solution:**
 - Used `nvm` (Node Version Manager) to upgrade Node.js
 - Ran: `nvm install 22`
 - Successfully upgraded from v20.16.0 → v22.22.0
 - Ran: `nvm use 22` to activate the new version
 
-**Status:** ✅ Resolved (app runs despite terminal showing old version in some sessions)
+**Outcome:**
+✅ App runs correctly with Node.js v22.22.0
 
 ---
 
-### 2. Tailwind CSS v4 PostCSS Plugin Change 🔧
-**Issue:** Tailwind CSS v4 moved the PostCSS plugin to a separate package
+## Issue 2: Tailwind CSS v4 PostCSS Plugin Change
+
+**Problem:**
+Tailwind CSS v4 moved the PostCSS plugin to a separate package
 
 **Error Message:**
 ```
@@ -35,7 +36,7 @@ The PostCSS plugin has moved to a separate package, so to continue using Tailwin
 with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
 ```
 
-**Resolution:**
+**Solution:**
 1. Installed the new PostCSS plugin:
    ```bash
    npm install -D @tailwindcss/postcss tailwindcss@latest
@@ -43,15 +44,6 @@ with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostC
 
 2. Updated `postcss.config.js`:
    ```javascript
-   // BEFORE
-   export default {
-     plugins: {
-       tailwindcss: {},
-       autoprefixer: {},
-     },
-   }
-   
-   // AFTER
    export default {
      plugins: {
        '@tailwindcss/postcss': {},
@@ -62,92 +54,77 @@ with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostC
 
 3. Updated `src/index.css` to use Tailwind v4 syntax:
    ```css
-   // BEFORE
-   @tailwind base;
-   @tailwind components;
-   @tailwind utilities;
-   
-   // AFTER
    @import "tailwindcss";
    ```
 
-**Status:** ✅ Resolved
+**Files Modified:**
+- `/frontend/postcss.config.js`
+- `/frontend/src/index.css`
+
+**Outcome:**
+✅ Tailwind CSS v4 working correctly with PostCSS
 
 ---
 
-### 3. Tailwind CSS Init Command Failed ❌
-**Issue:** `npx tailwindcss init -p` command failed to execute
+## Issue 3: Tailwind CSS Init Command Failed
+
+**Problem:**
+`npx tailwindcss init -p` command failed to execute
 
 **Error Message:**
 ```
 npm error could not determine executable to run
 ```
 
-**Resolution:**
+**Solution:**
 - Manually created configuration files:
   - `tailwind.config.js`
   - `postcss.config.js`
 
-**Status:** ✅ Resolved (manual file creation worked)
+**Outcome:**
+✅ Manual file creation worked successfully
 
 ---
 
-### 4. Environment Variable Structure Clarification 📝
-**Issue:** Initial plan had redundant `.env` files (both root and backend)
+## Issue 4: Environment Variable Structure Clarification
+
+**Problem:**
+Initial plan had redundant `.env` files (both root and backend)
 
 **Discussion:**
 - Only backend needs `.env` for database credentials and API keys
 - Frontend uses build-time environment variables (not runtime `.env`)
 - Root `.env.example` serves as documentation template
 
-**Resolution:**
+**Solution:**
 - Simplified to single `.env` location: `/backend/.env`
 - Updated documentation and todo.md accordingly
 
-**Status:** ✅ Resolved
+**Outcome:**
+✅ Cleaner project structure with single `.env` location
 
 ---
 
-### 5. VS Code Linter Errors for Tailwind Directives ⚠️
-**Issue:** VS Code CSS linter showed errors for `@import "tailwindcss";`
+## Issue 5: VS Code Linter Errors for Tailwind Directives
+
+**Problem:**
+VS Code CSS linter showed errors for `@import "tailwindcss";`
 
 **Error Message:**
 ```
 Unknown at rule @tailwind
 ```
 
-**Resolution:**
+**Solution:**
 - This is expected behavior (VS Code's CSS linter doesn't recognize Tailwind directives)
 - No action needed - the app compiles correctly despite linter warnings
 
-**Status:** ✅ Expected behavior (can be ignored)
+**Outcome:**
+✅ Expected behavior (safe to ignore)
 
 ---
 
-## Final Status: Phase 1 Complete ✅
-
-### What Works:
-- ✅ Git repository initialized
-- ✅ Backend directory structure created with `package.json`
-- ✅ Frontend React + Vite + Tailwind CSS setup complete
-- ✅ Development server running at http://localhost:5173/
-- ✅ `.gitignore` configured
-- ✅ `.env.example` created with all required variables
-
-### Manual Steps Completed by User:
-- ✅ Created `/backend/.env` (copied from `.env.example`)
-- ✅ Configured database credentials in `.env`
-
-### Outstanding Items:
-- None - Phase 1 fully complete
-
----
-
-## Lessons Learned
-
-1. **Always verify Node.js version compatibility** before initializing frontend frameworks
-2. **Tailwind CSS v4 has breaking changes** - requires `@tailwindcss/postcss` package
-3. **Keep environment variable structure simple** - avoid redundant `.env` files
+**Phase 1 Status:** ✅ Complete with 5 issues resolved
 4. **Manual configuration works** when CLI tools fail unexpectedly
 5. **VS Code linter warnings** for Tailwind directives are safe to ignore
 
