@@ -126,29 +126,21 @@
 ## Phase 4: CLI Description Generator
 
 ### Project Structure
-- [ ] Create `/backend/scripts` directory
-- [ ] Create `/backend/scripts/generate-descriptions.js` (CLI script)
-- [ ] Create `/backend/scripts/githubModelsService.js` (GitHub Models API calls)
+- [x] Create `/backend/scripts` directory
+- [x] Create `/backend/scripts/generate-descriptions.js` (CLI script - kept for reference)
+- [x] Create `/backend/scripts/githubModelsService.js` (GitHub Models API calls)
 
-### Implementation
-- [ ] Set up GitHub Models API client
-- [ ] Read environment variable `GITHUB_TOKEN`
-- [ ] Query database for all players without description
-- [ ] For each player, generate prompt:
-  - Include player name, position, and key stats
-  - Request 1-paragraph description
-  - Focus on career highlights and statistical analysis
-- [ ] Call GitHub Models API to generate description
-- [ ] Update player record in database with description
-- [ ] Handle errors gracefully:
-  - Rate limiting
-  - API errors
-  - Database errors
-- [ ] Add `package.json` script:
-  - `npm run generate-descriptions` - run the CLI script
-- [ ] Test script with a few players first
-- [ ] Run script for all players
-- [ ] Verify descriptions in database
+### Implementation (On-Demand Generation)
+- [x] Set up GitHub Models API client
+- [x] Read environment variable `GITHUB_TOKEN`
+- [x] Integrate description generation into GET /api/players/:id endpoint
+- [x] Generate description on-the-fly when player is viewed (if not exists)
+- [x] Update player record in database with generated description
+- [x] Handle errors gracefully (don't fail request if generation fails)
+- [x] CLI script available for batch processing if needed later
+
+**Note:** Changed from batch CLI approach to on-demand generation to reduce API costs.
+Only generates descriptions for players that are actually viewed.
 
 ---
 

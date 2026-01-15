@@ -1,4 +1,5 @@
 const db = require('../db');
+const { generatePlayerDescription } = require('../services/githubModelsService');
 
 // GET /api/players - Get all players with optional sorting
 const getAllPlayers = async (req, res) => {
@@ -21,16 +22,40 @@ const getAllPlayers = async (req, res) => {
 };
 
 // GET /api/players/:id - Get a single player by ID
+// If player has no description, generate one on-the-fly using GitHub Models API
 const getPlayerById = async (req, res) => {
   try {
     const { id } = req.params;
     
-    const player = await db('players')
+    let player = await db('players')
       .where({ id })
       .first();
     
     if (!player) {
       return res.status(404).json({ error: 'Player not found' });
+    }
+    
+    // Generate description on-the-fly if not exists
+    if (!player.description) {
+      try {
+        console.log(`Generating description for ${player.player_name}...`);
+        const description = await generatePlayerDescription(player);
+        
+        // Update database with generated description
+        await db('players')
+          .where({ id })
+          .update({ 
+            description, 
+            updated_at: db.fn.now() 
+          });
+        
+        // Update player object with new description
+        player.description = description;
+        console.log(`✅ Description generated for ${player.player_name}`);
+      } catch (genError) {
+        // Log error but don't fail the request - return player without description
+        console.error(`Failed to generate description for ${player.player_name}:`, genError.message);
+      }
     }
     
     res.json(player);
