@@ -147,36 +147,35 @@ Only generates descriptions for players that are actually viewed.
 ## Phase 5: Frontend Setup & Components
 
 ### Project Structure
-- [ ] Create `/frontend/src/components` directory
-- [ ] Create `/frontend/src/pages` directory
-- [ ] Create `/frontend/src/services` directory
-- [ ] Create `/frontend/src/services/api.js` (API calls)
-- [ ] Create `/frontend/src/App.jsx` (main app component)
+- [x] Create `/frontend/src/components` directory
+- [x] Create `/frontend/src/services` directory
+- [x] Create `/frontend/src/services/api.js` (API calls)
+- [x] Create `/frontend/src/App.jsx` (main app component)
 
 ### API Service Layer
-- [ ] Create `api.js` with functions:
+- [x] Create `api.js` with functions:
   - `fetchPlayers(sortBy = 'hits')` - GET /api/players
   - `fetchPlayerById(id)` - GET /api/players/:id
   - `updatePlayer(id, data)` - PUT /api/players/:id
-- [ ] Set `API_BASE_URL` from environment or default to `http://localhost:5000`
+- [x] Set `API_BASE_URL` from environment or default to `http://localhost:3001`
 
 ### Components - Player List
-- [ ] Create `/frontend/src/components/PlayerList.jsx`
+- [x] Create `/frontend/src/components/PlayerList.jsx`
   - Display players in a table or list view
   - Show columns: Name, Position, Games, At-bat, Runs, Hits, Doubles, HRs, RBIs, Strikeouts
   - Load players on component mount
   - Handle loading and error states
-- [ ] Create `/frontend/src/components/SortControls.jsx`
+- [x] Create `/frontend/src/components/SortControls.jsx`
   - Two buttons: "Sort by Hits" and "Sort by Home Runs"
   - Active button highlighted
   - Trigger re-fetch with correct `sortBy` parameter
-- [ ] Create `/frontend/src/components/PlayerRow.jsx`
+- [x] Create `/frontend/src/components/PlayerRow.jsx`
   - Single player row component
   - Click handler to select player
   - Pass selected player ID to parent
 
 ### Components - Side Panel
-- [ ] Create `/frontend/src/components/SidePanel.jsx`
+- [x] Create `/frontend/src/components/SidePanel.jsx`
   - Desktop: slide in from right (fixed position, z-index)
   - Mobile: full-screen modal
   - Show player description at top
@@ -185,7 +184,7 @@ Only generates descriptions for players that are actually viewed.
   - Add Close button (top-right or bottom)
   - Add Save button (bottom)
   - Implement responsive design using Tailwind classes
-- [ ] Create `/frontend/src/components/EditFields.jsx`
+- [x] Create `/frontend/src/components/EditFields.jsx`
   - 8 input fields for editable stats
   - Input type: `number`
   - Min value: 0 (HTML5 validation)
@@ -193,39 +192,39 @@ Only generates descriptions for players that are actually viewed.
   - Track changes in local state
 
 ### App Integration
-- [ ] In `App.jsx`:
+- [x] In `App.jsx`:
   - Use state to track selected player ID
   - Render `SortControls` at top
   - Render `PlayerList` with click handler to set selected player
   - Conditionally render `SidePanel` based on selected player
   - Handle panel close (clear selected player)
-- [ ] Add global styles in `index.css` for:
+- [x] Add global styles in `index.css` for:
   - Smooth transitions
   - Mobile-responsive breakpoints
-- [ ] Test layout on desktop and mobile
+- [x] Test layout on desktop and mobile
 
 ---
 
 ## Phase 6: Frontend - Data Editing
 
 ### Edit & Save Flow
-- [ ] Implement `handleSave()` in `SidePanel.jsx`:
+- [x] Implement `handleSave()` in `SidePanel.jsx`:
   - Collect 8 field values from `EditFields`
   - Call `updatePlayer(playerId, updatedData)` from API service
   - Show loading state (disable Save button)
   - Show success/error message
-- [ ] On successful save:
+- [x] On successful save:
   - Close the side panel
   - Refresh player list (re-fetch with current sort)
   - Show brief success message (toast or alert)
-- [ ] On error:
+- [x] On error:
   - Display error message to user
   - Keep panel open with data intact
   - Allow user to retry
-- [ ] Add form validation:
+- [x] Add form validation:
   - Check all values are non-negative
   - Show validation errors inline
-- [ ] Test edit flow end-to-end
+- [x] Test edit flow end-to-end
 
 ---
 
