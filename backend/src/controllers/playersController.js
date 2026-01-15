@@ -30,9 +30,14 @@ const getAllPlayers = async (req, res) => {
 const getPlayerById = async (req, res) => {
   try {
     const { id } = req.params;
+    const playerId = parseInt(id, 10);
+    
+    if (isNaN(playerId)) {
+      return res.status(400).json({ error: 'Invalid player ID' });
+    }
     
     let player = await db('players')
-      .where({ id })
+      .where({ id: playerId })
       .first();
     
     if (!player) {
@@ -47,7 +52,7 @@ const getPlayerById = async (req, res) => {
         
         // Update database with generated description
         await db('players')
-          .where({ id })
+          .where({ id: playerId })
           .update({ 
             description, 
             updated_at: db.fn.now() 
@@ -73,6 +78,12 @@ const getPlayerById = async (req, res) => {
 const updatePlayer = async (req, res) => {
   try {
     const { id } = req.params;
+    const playerId = parseInt(id, 10);
+    
+    if (isNaN(playerId)) {
+      return res.status(400).json({ error: 'Invalid player ID' });
+    }
+    
     const {
       games,
       at_bat,
@@ -108,21 +119,21 @@ const updatePlayer = async (req, res) => {
     }
     
     // Check if player exists
-    const player = await db('players').where({ id }).first();
+    const player = await db('players').where({ id: playerId }).first();
     if (!player) {
       return res.status(404).json({ error: 'Player not found' });
     }
     
     // Update the player
     await db('players')
-      .where({ id })
+      .where({ id: playerId })
       .update({
         ...updates,
         updated_at: db.fn.now()
       });
     
     // Fetch and return the updated player
-    const updatedPlayer = await db('players').where({ id }).first();
+    const updatedPlayer = await db('players').where({ id: playerId }).first();
     res.json(updatedPlayer);
   } catch (error) {
     console.error('Error updating player:', error);

@@ -231,11 +231,12 @@ Only generates descriptions for players that are actually viewed.
 ## Phase 7: Integration & Testing
 
 ### Backend & Frontend Integration
-- [ ] Ensure backend server is running on `http://localhost:5000` (or configured port)
-- [ ] Ensure frontend is running on `http://localhost:3000` (or configured port)
-- [ ] Test CORS setup (requests should go through)
-- [ ] Test full flow:
+- [x] Ensure backend server is running on `http://localhost:5000` (or configured port)
+- [x] Ensure frontend is running on `http://localhost:3000` (or configured port)
+- [x] Test CORS setup (requests should go through)
+- [x] Test full flow:
   - Load player list
+  - Sort by Name
   - Sort by Hits
   - Sort by Home Runs
   - Click a player
@@ -245,30 +246,109 @@ Only generates descriptions for players that are actually viewed.
   - List refreshes with updated data
   - Close panel
 - [ ] Test on mobile viewport (DevTools)
-- [ ] Test on desktop viewport
+- [x] Test on desktop viewport
 
 ### Error Handling
-- [ ] Test network failure (backend down)
-- [ ] Test invalid player ID
-- [ ] Test invalid form data
-- [ ] Test database error scenarios
-- [ ] Verify graceful error messages shown to user
+- [x] Test network failure (backend down)
+- [x] Test invalid player ID
+- [x] Test invalid form data
+- [x] Test database error scenarios
+- [x] Verify graceful error messages shown to user
 
 ### UI/UX Polish
-- [ ] Verify Tailwind styling is clean and neutral
-- [ ] Check alignment, spacing, colors
-- [ ] Ensure responsive design works
-- [ ] Test side panel slide/modal animations
-- [ ] Test button hover/active states
-- [ ] Verify loading spinners/placeholders appear
+- [x] Verify Tailwind styling is clean and neutral
+- [x] Check alignment, spacing, colors
+- [x] Ensure responsive design works
+- [x] Test side panel slide/modal animations
+- [x] Test button hover/active states
+- [x] Verify loading spinners/placeholders appear
 
 ---
 
-## Phase 8: Final Review & Deployment Prep
+## Phase 8: Unit Testing
+
+### Backend Testing Setup
+- [ ] Install testing dependencies:
+  - `jest` (test runner)
+  - `supertest` (HTTP assertions)
+  - `@types/jest` (TypeScript definitions if needed)
+- [ ] Create `/backend/tests` directory
+- [ ] Configure Jest in `package.json` or `jest.config.js`
+- [ ] Add test script: `npm run test`
+
+### Backend Unit Tests
+- [ ] Create `/backend/tests/players.test.js`
+- [ ] Test `GET /api/players`:
+  - Returns array of players
+  - Default sort by hits descending
+  - Sort by home_run descending
+  - Sort by player_name ascending/descending
+  - Handles invalid sortBy parameter gracefully
+- [ ] Test `GET /api/players/:id`:
+  - Returns single player by ID
+  - Returns 404 for non-existent player
+  - Returns all player fields including description
+- [ ] Test `PUT /api/players/:id`:
+  - Updates player stats successfully
+  - Returns updated player data
+  - Returns 400 for invalid data (negative numbers)
+  - Returns 404 for non-existent player
+  - Validates all 8 editable fields
+- [ ] Test database helper functions (if any)
+- [ ] Test error handling middleware
+
+### Frontend Testing Setup
+- [ ] Install testing dependencies:
+  - `vitest` (Vite-native test runner)
+  - `@testing-library/react` (React testing utilities)
+  - `@testing-library/jest-dom` (DOM matchers)
+  - `@testing-library/user-event` (user interaction simulation)
+  - `msw` (Mock Service Worker for API mocking)
+- [ ] Create `/frontend/src/__tests__` directory
+- [ ] Configure Vitest in `vite.config.js`
+- [ ] Add test script: `npm run test`
+
+### Frontend Unit Tests
+- [ ] Create `/frontend/src/__tests__/PlayerList.test.jsx`
+  - Renders loading state
+  - Renders error state
+  - Renders list of players
+  - Handles player click
+  - Sortable headers work correctly
+- [ ] Create `/frontend/src/__tests__/SidePanel.test.jsx`
+  - Renders player details
+  - Renders edit fields with correct values
+  - Save button triggers API call
+  - Close button works
+  - Shows loading state during save
+  - Shows error on failed save
+- [ ] Create `/frontend/src/__tests__/EditFields.test.jsx`
+  - Renders all 8 input fields
+  - Updates values on change
+  - Validates non-negative numbers
+- [ ] Create `/frontend/src/__tests__/api.test.js`
+  - Test `fetchPlayers()` API call
+  - Test `fetchPlayerById()` API call
+  - Test `updatePlayer()` API call
+  - Handle network errors
+
+### Integration Tests
+- [ ] Test full user flow with mocked API:
+  - Load players → Sort → Select → Edit → Save → Refresh
+- [ ] Test error scenarios with mocked failures
+
+### Test Coverage
+- [ ] Aim for 80%+ code coverage
+- [ ] Run coverage report: `npm run test:coverage`
+- [ ] Review uncovered lines and add tests as needed
+
+---
+
+## Phase 9: Final Review & Deployment Prep
 
 ### Code Quality
-- [ ] Review backend code for best practices
-- [ ] Review frontend code for best practices
+- [x] Review backend code for best practices
+- [x] Review frontend code for best practices
 - [ ] Ensure no console errors or warnings
 - [ ] Remove any debug code or console.logs
 - [ ] Verify all environment variables are properly used
@@ -280,21 +360,21 @@ Only generates descriptions for players that are actually viewed.
 - [ ] Ensure all files have proper headers/descriptions
 
 ### Final Testing
-- [ ] Full end-to-end test of all features
-- [ ] Verify database persists changes
-- [ ] Verify descriptions were generated correctly
-- [ ] Test with fresh database (run migrations + seeders again)
+- [x] Full end-to-end test of all features
+- [x] Verify database persists changes
+- [x] Verify descriptions were generated correctly
+- [x] Test with fresh database (run migrations + seeders again)
 
 ### Repository Setup
-- [ ] Initialize git and commit all code
-- [ ] Push to GitHub repository
-- [ ] Verify repository structure matches project plan
+- [x] Initialize git and commit all code
+- [x] Push to GitHub repository
+- [x] Verify repository structure matches project plan
 
 ---
 
 ## Summary
 
-**Total Phases:** 8  
-**Total Checkpoints:** 140+  
+**Total Phases:** 9  
+**Total Checkpoints:** 180+  
 
 This checklist ensures every step of the project is completed, tested, and integrated before moving forward. Reference `docs/spec.md` and `docs/project_plan.md` as needed during implementation.
